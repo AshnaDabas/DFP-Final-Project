@@ -51,14 +51,14 @@ def getSecData(cik):
             revenue = []
     
     #Parse revenue list and create a list of dictionaries with applicable values from each year if values are from most recent 3 years of 10k filings
-    rIindex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in revenue if
-        entry.get('form') == '10-K' and entry.get('end').startswith(yearStr[i]) and entry.get('frame') == ('CY'+yearStr[i])]
-    if not rIindex:
-        rIindex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in revenue if
-        entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
-
-    #Parse list of dictionaries, convert string to float, and divide by 1 billion using each year's information as a key, creating an empty dictionary if no information available
     try:
+        rIindex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in revenue if
+        entry.get('form') == '10-K' and entry.get('end').startswith(yearStr[i]) and entry.get('frame') == ('CY'+yearStr[i])]
+        if not rIindex:
+            rIindex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in revenue if
+            entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
+
+        #Parse list of dictionaries, convert string to float, and divide by 1 billion using each year's information as a key, creating an empty dictionary if no information available
         rVals = {line['year']: float(line['val']) / 1000000000 for line in rIindex}
     except:
         rVals = dict()
@@ -78,27 +78,35 @@ def getSecData(cik):
     except:
         gpVals = dict()
 
-    #Pull gross profit information from within 10-k GrossProfit entries and create a list of of dictionaries, creating an empty dictionary if no information available
-    netIncome = jData['facts']['us-gaap']['NetIncomeLoss']['units']['USD']
-    niIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in netIncome if
-    entry.get('form') == '10-K' and entry.get('end').startswith(yearStr[i]) and entry.get('frame') == ('CY'+yearStr[i])]
-    if not niIndex:
+    #Pull net income information from within 10-k net income loss entries and create a list of of dictionaries, creating an empty dictionary if no information available
+    try:
+        netIncome = jData['facts']['us-gaap']['NetIncomeLoss']['units']['USD']
         niIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in netIncome if
-        entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
-
-    niVals = {line['year']: float(line['val']) / 1000000000 for line in niIndex}
-
-    ePS = jData['facts']['us-gaap']['EarningsPerShareDiluted']['units']['USD/shares']
-    epsIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in ePS if
         entry.get('form') == '10-K' and entry.get('end').startswith(yearStr[i]) and entry.get('frame') == ('CY'+yearStr[i])]
-    if not epsIndex:
+        if not niIndex:
+            niIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in netIncome if
+            entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
+
+        #Parse list of dictionaries, convert string to float, and divide by 1 billion using each year's information as a key, creating an empty dictionary if no information available
+        niVals = {line['year']: float(line['val']) / 1000000000 for line in niIndex}
+    except:
+        niVals = dict()
+    #Pull earnings per share information from within 10-k eps entries and create a list of of dictionaries, creating an empty dictionary if no information available        
+    try:
+        ePS = jData['facts']['us-gaap']['EarningsPerShareDiluted']['units']['USD/shares']
         epsIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in ePS if
-        entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
+            entry.get('form') == '10-K' and entry.get('end').startswith(yearStr[i]) and entry.get('frame') == ('CY'+yearStr[i])]
+        if not epsIndex:
+            epsIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in ePS if
+            entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
 
-    epsVals = {line['year']: float(line['val']) for line in epsIndex}
+        #Parse list of dictionaries, convert string to float using each year's information as a key, creating an empty dictionary if no information available
+        epsVals = {line['year']: float(line['val']) for line in epsIndex}
+    except:
+        epsVals = dict()
 
+    #Create dictionary using years as value keys and values from each year
     years = list(rVals.keys())
-
     data = {
         'Year': years,
         'Revenue (In Billions)': [rVals[year] for year in years],
@@ -108,8 +116,7 @@ def getSecData(cik):
         'SEC API Address': [address for year in years]
     }
 
-    print(data)
-
+    #Create pandas dataframe secDf, round dataframe values, replacing any empty values with np.nan
     secDf = pd.DataFrame(data)
     secDf['Revenue (In Billions)'] = secDf['Revenue (In Billions)'].round(2)
     secDf['Gross Profit Margin %'] = secDf['Gross Profit Margin %'].replace('', np.nan)
@@ -117,6 +124,7 @@ def getSecData(cik):
     secDf['Net Income (In Billions)'] = secDf['Net Income (In Billions)'].round(2)
     secDf['Earnings Per Share (In Dollars)'] = secDf['Earnings Per Share (In Dollars)'].round(2)
 
+    #Return completed dataframe with SEC info
     return(secDf)
 
 if __name__ == "__main__":
