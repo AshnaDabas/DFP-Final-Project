@@ -73,7 +73,7 @@ def getSecData(cik):
             gpIndex = [{'year': entry['frame'][-4:], 'val': entry['val']} for i in range(3) for entry in gross_profit if
             entry.get('form') == '10-K' and entry.get('end').startswith(str(int(yearStr[i]) + 1)) and entry.get('frame') == ('CY'+yearStr[i])]
         
-        #Parse list of dictionaries, convert string to float, and divide by 1 billion, divide by revenue value and multiply by 100 using each year's information as a key, creating an empty dictionary if no information available
+        #Parse list of dictionaries, convert string to float, and divide by 1 billion, divide by revenue value and multiply by 100 to define gross profit margin percentage using each year's information as a key, creating an empty dictionary if no information available
         gpVals = {line['year']: float(line['val'])/1000000000/rVals[line['year']]*100 for line in gpIndex}
     except:
         gpVals = dict()

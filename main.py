@@ -13,7 +13,3 @@ if __name__ == "__main__":
     except Exception as e: 
         print("Sorry, looks like we don't have any details on the company you provided at this time.")
         print(e)
-
-    
-    
-
