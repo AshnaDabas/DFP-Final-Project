@@ -25,5 +25,4 @@ class utility:
 
 if __name__ == "__main__":
     util = utility()
-    print(util.get_ticker('apple'))
-
+    print(util.get_ticker('microsoft'))
