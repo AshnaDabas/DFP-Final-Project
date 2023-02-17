@@ -13,6 +13,7 @@ Date: 02/16/2023
 import urllib.request
 import json
 import datetime
+import numpy as np
 import pandas as pd
 
 ticker = ''
@@ -107,8 +108,11 @@ def getSecData(cik):
         'SEC API Address': [address for year in years]
     }
 
+    print(data)
+
     secDf = pd.DataFrame(data)
     secDf['Revenue (In Billions)'] = secDf['Revenue (In Billions)'].round(2)
+    secDf['Gross Profit Margin %'] = secDf['Gross Profit Margin %'].replace('', np.nan)
     secDf['Gross Profit Margin %'] = secDf['Gross Profit Margin %'].round(2)
     secDf['Net Income (In Billions)'] = secDf['Net Income (In Billions)'].round(2)
     secDf['Earnings Per Share (In Dollars)'] = secDf['Earnings Per Share (In Dollars)'].round(2)
