@@ -15,6 +15,7 @@ import json
 import datetime
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 ticker = ''
 address = ''
@@ -34,6 +35,7 @@ def setAddress(cik):
     header = {'User-Agent': 'Carnegie Mellon University aneumann@andrew.cmu.edu'}
 
 #Get/load JSON from SEC
+@st.cache_data
 def getSecData(cik):
     setAddress(cik)
     req = urllib.request.Request(url=address, headers=header)

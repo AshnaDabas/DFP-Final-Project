@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 import pandas as pd
+import streamlit as st
 
-
-
+@st.cache_data
 def get_nasdaq_current_stock_price(ticker):
     # tickers = ["AAPL", "MSFT", "AMZN", "NVDA", "GOOG", "GOOGL", "TSLA", "META", "AVGO", "PEP"]
     tickers = [ticker]

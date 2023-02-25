@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 import csv
 import pandas as pd
+import streamlit as st
 
 #Assigning path and file name to path variable
 cwd = os.getcwd()
@@ -31,7 +32,10 @@ tickerDf = pd.DataFrame(tickerMap[1:], columns=tickerMap[0])
 tickerDf = tickerDf.loc[:, ['Ticker', 'Name', 'CIK', 'Exchange']]
 tickerDf = tickerDf.set_index('Ticker')
 
+@st.cache_data
 def tickerToCompany(ticker):
     return tickerDf.loc[ticker,'Name']
+
+@st.cache_data
 def tickerToCIK(ticker):
     return 'CIK'+str(tickerDf.loc[ticker,'CIK'])

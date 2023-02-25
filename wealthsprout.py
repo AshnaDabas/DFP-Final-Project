@@ -5,8 +5,7 @@ import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
 import stockChartsWebsite as stock_charts
 import streamlit as st
-import urllib.request
-from PIL import Image
+
 
 companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
 st.set_page_config(page_title="WealthSprout", page_icon=":seedling:", layout="wide")
@@ -35,7 +34,7 @@ except Exception as e:
     print("Sorry, looks like we don't have any details on the company you provided at this time.")
     print(e)
 
-
+# st.form_submit_button(label="Submit")
 st.write("SEC Filing Information")
 st.write(f"Ticker: {ticker} Filing Name: {selected_company} CIK: {cik}")
 st.write("Obtained from SEC.gov - Link: SEC Filing Information")

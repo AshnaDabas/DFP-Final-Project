@@ -8,9 +8,10 @@ from PIL import Image
 from io import BytesIO
 import shutil
 import requests
-
 from isort import stream
+import streamlit as st
 
+@st.cache_data
 def getLinkToCompanyChart(stock_ticker):
     '''
     Function Description:
