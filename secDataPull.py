@@ -129,6 +129,7 @@ def getSecData(cik):
     #Return completed dataframe with SEC info
     return(secDf)
 
+# If statement to do spot testing, requires commenting out streamlit items within this module and tickermapper module
 if __name__ == "__main__":
     import tickerMapper as tm
     print(getSecData(tm.tickerToCIK('AMZN')))
