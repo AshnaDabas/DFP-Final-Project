@@ -86,14 +86,14 @@ col_spacer, col_spacer = st.columns(2)
 
 col8, col9, col10 = st.columns((.5, .1, .4))
 with col8:
-    sec_plot_data = sec_display_data.loc[:,["Year", "Gross Profit Margin %", "Net Income (In Billions)", "Revenue (In Billions)"]]
+    sec_plot_data = sec_display_data.loc[:,["Year", "Net Income (In Billions)", "Revenue (In Billions)"]]
     st.bar_chart(data=sec_plot_data, x="Year", use_container_width=True)
 
 with col10:
     st.text(f"SEC Filing Information")
     st.text(f"Ticker: {ticker} Filing Name: {selected_company} CIK: {cik}")
     st.text("Obtained from SEC.gov - Link: SEC Filing Information")
-    st.dataframe(sec_display_data[["Year", "Filing Info", "Earnings Per Share (In Dollars)"]])
+    st.dataframe(sec_display_data[["Year", "Filing Info", "Gross Profit Margin %", "Earnings Per Share (In Dollars)"]])
 
 
 col10, col11 = st.columns(2)  
