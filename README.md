@@ -2,8 +2,7 @@
 
 <h2>Setup and Running Instructions</h2>
 
-<p>Navigate to the right folder</p>
-<p>cd into the main project folder named "DFP-Final-Project</p>
+<p>Navigate to the right folder: cd into the main project folder named "DFP-Final-Project</p>
 
 <p>Download required packages by running the following command </p>
 <code> pip install -r requirements.txt </code>
