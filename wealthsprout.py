@@ -9,7 +9,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 
-companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
+companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
 st.set_page_config(page_title="WealthSprout", page_icon=":seedling:", layout="wide")
 
 #Header Layout
@@ -17,7 +17,7 @@ header_col1, header_col2 = st.columns(2)
 with header_col1:
     header_col0_1, header_col0_2 = st.columns(2)
     with header_col0_1:
-        logo = Image.open('./assets/logo1.png')
+        logo = Image.open('./assets/wealthsprout.png')
         st.image(logo)
 
 #Search Bar
@@ -39,17 +39,18 @@ try:
     
     yahoo_finance_data = yahoo_finance.getListOfCompanyExecutives(ticker)
     
-    print(sec_display_data)
+    # print(sec_display_data)
 
 except Exception as e: 
     print("Sorry, looks like we don't have any details on the company you provided at this time.")
     print(e)
 
+#ticker display
 with col3:
     st.subheader(ticker)
 
+#Content Layout - stock prices
 spacer1, spacer2, spacer3 = st.columns(3)
-#Content Layout
 col5, col6, col7 = st.columns(3)
 with col5:
     col5_1, col5_2 = st.columns(2)
@@ -80,10 +81,11 @@ with col7:
     with col7_2:
         image = Image.open('./assets/fluctuation.png')
         st.image(image, width = 100)
-    
-col_spacer, col_spacer = st.columns(2)
-col_spacer, col_spacer = st.columns(2)
 
+
+#content layout - bar plot and filing details
+col_spacer, col_spacer = st.columns(2)
+col_spacer, col_spacer = st.columns(2)
 col8, col9, col10 = st.columns((.5, .1, .4))
 with col8:
     sec_plot_data = sec_display_data.loc[:,["Year", "Net Income (In Billions)", "Revenue (In Billions)"]]
@@ -96,6 +98,7 @@ with col10:
     st.dataframe(sec_display_data[["Year", "Filing Info", "Gross Profit Margin %", "Earnings Per Share (In Dollars)"]])
 
 
+#content layout - leadership
 col10, col11 = st.columns(2)  
 with col10:
     st.text(f"Leadership at {selected_company}")
