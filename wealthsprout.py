@@ -1,5 +1,6 @@
 import tickerMapper as tm
 import secDataPull as sec
+import pandas as pd
 from ticker_check import utility
 import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
@@ -7,6 +8,7 @@ import stockChartsWebsite as stock_charts
 import streamlit as st
 from PIL import Image
 import matplotlib.pyplot as plt
+import altair as alt
 
 
 companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
@@ -36,6 +38,11 @@ try:
     sec_display_data["Year"] = sec_display_data["Filing Info"].str[3:8]
 
     google_finance_data = google_finance.get_nasdaq_current_stock_price(ticker)
+
+    google_finance_prices_dict = {"Price": [google_finance_data["Opening Price"], google_finance_data["Previous Closing Price"]],\
+                                    "Type": ["O", "C"]}
+
+    google_finance_prices_df = pd.DataFrame(google_finance_prices_dict)
     
     yahoo_finance_data = yahoo_finance.getListOfCompanyExecutives(ticker)
     
@@ -55,19 +62,30 @@ col5, col6, col7 = st.columns(3)
 with col5:
     col5_1, col5_2 = st.columns(2)
     with col5_1:
-        st.text("Current Price")
-        st.text(f"As Of: {google_finance_data['Time of Price'].values[0][:10]}")
+        st.text(f"Current Price ({google_finance_data['Time of Price'].values[0][:10]})")
+        # st.text(f"As Of: {google_finance_data['Time of Price'].values[0][:10]}")
         st.subheader(google_finance_data["Current Price"].values[0])
     with col5_2:
         image = Image.open('./assets/fluctuation.png')
         st.image(image, width = 100)
+        # if google_finance_data["Opening Price"].values[0] > google_finance_data["Previous Closing Price"].values[0]:
+        #     chart = alt.Chart(google_finance_prices_df).mark_line(point = True, color='green').encode(
+        #         x = alt.X('Type'),
+        #         y= alt.Y('Price', axis=alt.Axis(labels=False)),
+        #     )
+        # else:
+        #     chart = alt.Chart(google_finance_prices_df).mark_line(point = True, color='red').encode(
+        #         x = alt.X('Type'),
+        #         y=alt.Y('Price', axis=alt.Axis(labels=False)),
+        #     )
+
+        # st.altair_chart(chart)
 
 with col6:
     col6_1, col6_2 = st.columns(2)
     with col6_1:
-        st.text("Current Price")
-        st.text(f"As Of: {google_finance_data['Time of Price'].values[0][:10]}")
-        st.subheader(google_finance_data["Current Price"].values[0])
+        st.text("Opening Price")
+        st.subheader(google_finance_data["Opening Price"].values[0])
     with col6_2:
         image = Image.open('./assets/fluctuation.png')
         st.image(image, width = 100)
@@ -75,9 +93,8 @@ with col6:
 with col7:
     col7_1, col7_2 = st.columns(2)
     with col7_1:
-        st.text("Current Price")
-        st.text(f"As Of: {google_finance_data['Time of Price'].values[0][:19]}")
-        st.subheader(google_finance_data["Current Price"].values[0])
+        st.text("Previous Closing Price")
+        st.subheader(google_finance_data["Previous Closing Price"].values[0])
     with col7_2:
         image = Image.open('./assets/fluctuation.png')
         st.image(image, width = 100)
@@ -103,3 +120,5 @@ col10, col11 = st.columns(2)
 with col10:
     st.text(f"Leadership at {selected_company}")
     st.write(yahoo_finance_data[['Name', 'Title']])
+
+
