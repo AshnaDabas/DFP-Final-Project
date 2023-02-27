@@ -122,3 +122,6 @@ with col10:
     st.write(yahoo_finance_data[['Name', 'Title']])
 
 
+with col11:
+    company_chart = stock_charts.getCompanyChart(ticker)
+    st.image(company_chart)
