@@ -126,6 +126,7 @@ except Exception as e:
     with col10:
         st.text("We are unable to find leadership information at this time")
 
+#content layout - company statistics
 try:
     with col11:
         st.text('Company Statistics:')
@@ -134,6 +135,7 @@ except Exception as e:
     with col11:
         st.text("We are unable to find other company statistics at this time")
 
+#content layout - stock chart image
 col12, col13 = st.columns(2)
 try:
     with col12:
