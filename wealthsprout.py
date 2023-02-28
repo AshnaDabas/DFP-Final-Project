@@ -46,7 +46,6 @@ try:
     
     yahoo_finance_data = yahoo_finance.getListOfCompanyExecutives(ticker)
     
-    # print(sec_display_data)
 
 except Exception as e: 
     print("Sorry, looks like we don't have any details on the company you provided at this time.")
@@ -64,7 +63,6 @@ try:
         col5_1, col5_2 = st.columns(2)
         with col5_1:
             st.text(f"Current Price ({google_finance_data['Time of Price'].values[0][:10]})")
-            # st.text(f"As Of: {google_finance_data['Time of Price'].values[0][:10]}")
             st.subheader(google_finance_data["Current Price"].values[0])
         with col5_2:
             if google_finance_data["Opening Price"].values[0] > google_finance_data["Previous Closing Price"].values[0]:
