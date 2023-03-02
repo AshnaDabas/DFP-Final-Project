@@ -3,16 +3,17 @@ import requests
 from datetime import datetime
 import pandas as pd
 
+# Setup necessary lists
+tickers = ["AAPL", "MSFT", "AMZN", "NVDA", "GOOG", "GOOGL", "TSLA", "META", "AVGO", "PEP"]
+websites = []
+prices = []
+p_prices = []
+opens = []
+pes = []
+times = []
 
-def get_nasdaq_current_stock_price(ticker):
-    tickers = [ticker]
-    websites = []
-    prices = []
-    p_prices = []
-    opens = []
-    times = []
-
-        # Start by getting current date and time
+for ticker in tickers:
+    # Start by getting current date and time
     now = datetime.now()
     
     # Create a link to Google Finance for the respective "ticker" and load into bs4 format
@@ -29,8 +30,11 @@ def get_nasdaq_current_stock_price(ticker):
     # Previous close is the first
     previous_close = str(all_price[0]).split(">")[1].split("<")[0] # Class holding the previous close
     
-    # Opening price is found in the day range, as the first value
-    open_price = str(all_price[1]).split(">")[1].split("<")[0].split(" ")[0]
+    # Day range prices are found in the second
+    open_price = str(all_price[1]).split(">")[1].split("<")[0]
+    
+    # P/E Ratio is the 6th
+    pe = str(all_price[5]).split(">")[1].split("<")[0]
     
     # Print results for QA purposes
     print(ticker, current_price, previous_close, open_price, now.date(), now.time())
@@ -41,11 +45,11 @@ def get_nasdaq_current_stock_price(ticker):
     p_prices.append(previous_close)
     opens.append(open_price)
     times.append(str(now.date()) + " - " + str(now.time()))
+    pes.append(pe)
 
-    # Create DF to house all data, with stock ticker as the index
-    df = pd.DataFrame(list(zip(prices, p_prices, opens, times, websites)), index = tickers, columns = ['Current Price', "Previous Closing Price", "Opening Price", 'Time of Price', 'URL'])
-    return df
+# Find absolute and relative differences between current price and yesterday's close
+absolutes = ["$" + str(round(float(i[1:]) - float(j[1:]), 2)) for i, j in zip(prices, p_prices)]
+relatives = [str(round((float(i[1:]) - float(j[1:])) / float(j[1:]) * 100, 2)) + "%" for i, j in zip(prices, p_prices)]
 
-if __name__ == "__main__":
-    df = get_nasdaq_current_stock_price("AMZN")
-    print(df)
+# Create DF to house all data, with stock ticker as the index
+df = pd.DataFrame(list(zip(prices, p_prices, opens, absolutes, relatives, pes, times, websites)), index = tickers, columns = ['Current Price', "Previous Closing Price", "Day Range", "Absolute Price Change", "Percent Price Change", "P/E", 'Time of Price', 'URL'])
