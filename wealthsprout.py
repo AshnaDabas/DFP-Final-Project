@@ -1,7 +1,7 @@
 import tickerMapper as tm
 import secDataPull as sec
 import pandas as pd
-from ticker_check import utility
+from ticker_check import ticker_check
 import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
 import stockChartsWebsite as stock_charts
@@ -29,13 +29,13 @@ with col0:
 
 #Get Ticker
 try:
-    util = utility()
-    ticker = util.get_ticker(selected_company)
+    ticker_checker = ticker_check()
+    ticker = ticker_checker.get_ticker(selected_company)
 except Exception as e: 
     print("Sorry, looks like we don't have any details on the company you provided at this time.")
     print(e)
 
-#ticker display
+#Ticker display
 with col3:
     st.subheader(ticker)
 
