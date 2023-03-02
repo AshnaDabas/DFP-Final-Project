@@ -3,6 +3,14 @@ import requests
 from datetime import datetime
 import pandas as pd
 
+# Setup necessary lists
+tickers = ["AAPL", "MSFT", "AMZN", "NVDA", "GOOG", "GOOGL", "TSLA", "META", "AVGO", "PEP"]
+websites = []
+prices = []
+p_prices = []
+opens = []
+pes = []
+times = []
 
 def get_nasdaq_current_stock_price(ticker):
     # Setup necessary lists
