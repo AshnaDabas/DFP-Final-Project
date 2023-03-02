@@ -11,12 +11,12 @@ import streamlit as st
 def getCompanyChart(stock_ticker):
     '''
     Function Description:
-        Python program that pulls a link to the company chart from StockCharts website.
+        Python program that pulls an image og the company chart from StockCharts website.
     Arguments:
         Stock Ticker as a string
     Return Value:
-        A url to the company chart.
-        Empty string if no stock ticker is passed, or if unable to get chart from website. 
+        A png value of the company chart.
+        None if no stock ticker is passed, or if unable to get chart from website. 
     '''
 
     
@@ -25,7 +25,16 @@ def getCompanyChart(stock_ticker):
     options = Options()
     options.headless = True
 
-    driver = webdriver.Firefox(options=options)
+    browsers = [webdriver.Firefox, webdriver.Chrome, webdriver.Edge, webdriver.Safari]
+
+    for browser in browsers:
+        try:
+            driver = browser(options=options)
+            break
+        except:
+            print(f'Can not control browser {str(browser)}')
+
+
     driver.get(url_website)
 
     # Close ads if present
