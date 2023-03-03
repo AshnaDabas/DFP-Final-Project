@@ -9,7 +9,6 @@ import time
 import pandas as pd
 
 
-#companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
 st.set_page_config(page_title="WealthSprout", page_icon=":seedling:", layout="wide")
 
 #Header Layout
