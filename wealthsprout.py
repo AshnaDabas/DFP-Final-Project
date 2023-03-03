@@ -6,6 +6,7 @@ import yahooFinanceWebsite as yahoo_finance
 import streamlit as st
 from PIL import Image
 import time
+import pandas as pd
 
 
 #companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
@@ -59,12 +60,12 @@ try:
     with current_price_col:
         current_price_col1, current_ratio_col2 = st.columns(2)
         with current_price_col1:
-            st.text(f"Current Price ({google_finance_data['Time of Price'].values[0][:10]})")
+            st.markdown(f'<h3 title="Determined by the forces of supply and demand in the stock market">Current Price</h3>', unsafe_allow_html=True)
             st.subheader(google_finance_data["Current Price"].values[0])
         with ratio_col: 
             ratio_col1, ratio_col2 = st.columns(2)
             with ratio_col1:
-                st.text("Current Ratio")
+                st.markdown(f'<h3 title="used to evaluate liquidity and their ability to meet its short-term obligations">Current Ratio</h3>', unsafe_allow_html=True)
                 st.subheader(google_finance.get_current_ratio(ticker))
 except Exception as e:
     with current_price_col:
