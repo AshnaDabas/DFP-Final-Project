@@ -47,7 +47,7 @@ def get_nasdaq_current_stock_price(ticker):
     pe = str(all_price[5]).split(">")[1].split("<")[0]
 
     # Print results for QA purposes
-    print(ticker, current_price, previous_close, open_price, now.date(), now.time())
+    # print(ticker, current_price, previous_close, open_price, now.date(), now.time())
 
     # Append values to their respective lists
     websites.append(link)
@@ -86,7 +86,7 @@ def get_current_ratio(ticker):
     final_table = list(zip(*[iter(final_cells)]*4))
 
     try:
-        current_ratio = float(final_table[1][2].replace('B', '')) / float(final_table[2][2].replace('B', ''))
+        current_ratio = round(float(final_table[1][2].replace('B', '')) / float(final_table[2][2].replace('B', '')),2)
     except:
         current_ratio = '-'
 
