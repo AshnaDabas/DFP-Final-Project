@@ -85,11 +85,12 @@ def get_current_ratio(ticker):
 
     final_table = list(zip(*[iter(final_cells)]*4))
 
-    current_ratio = float(final_table[1][2].replace('B', '')) / float(final_table[2][2].replace('B', ''))
+    try:
+        current_ratio = float(final_table[1][2].replace('B', '')) / float(final_table[2][2].replace('B', ''))
+    except:
+        current_ratio = '-'
 
     return current_ratio
-
-
 
 
 
