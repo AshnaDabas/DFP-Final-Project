@@ -4,11 +4,9 @@ import pandas as pd
 from ticker_check import ticker_check
 import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
-import stockChartsWebsite as stock_charts
 import streamlit as st
 from PIL import Image
 import matplotlib.pyplot as plt
-import altair as alt
 
 
 companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
@@ -40,7 +38,8 @@ ticker_col, spacer = st.columns(2)
 with ticker_col:
     st.subheader(ticker)
 
-#Content Layout - stock prices
+#Content Layout - stock prices and ratio
+spacer1, spacer2, spacer3 = st.columns(3)
 spacer1, spacer2, spacer3 = st.columns(3)
 current_price_col, ratio_col, spacer = st.columns(3)
 try:
@@ -56,31 +55,12 @@ try:
             ratio_col1, ratio_col2 = st.columns(2)
             with ratio_col1:
                 st.text("Current Ratio")
-                st.text(google_finance.get_current_ratio(ticker))
+                st.subheader(google_finance.get_current_ratio(ticker))
 except Exception as e:
     with current_price_col:
         st.text("We are unable to find stock price information at this time")
     print(e)
 
-
-
-# with col6:
-#     col6_1, col6_2 = st.columns(2)
-#     with col6_1:
-#         st.text("Opening Price")
-#         st.subheader(google_finance_data["Opening Price"].values[0])
-#     with col6_2:
-#         image = Image.open('./assets/fluctuation.png')
-#         st.image(image, width = 100)
-
-# with col7:
-#     col7_1, col7_2 = st.columns(2)
-#     with col7_1:
-#         st.text("Previous Closing Price")
-#         st.subheader(google_finance_data["Previous Closing Price"].values[0])
-#     with col7_2:
-#         image = Image.open('./assets/fluctuation.png')
-#         st.image(image, width = 100)
 
 #content layout - leadership and sec_filing
 leadership_col, sec_filing_col = st.columns((.6, .4))  
@@ -138,13 +118,3 @@ except Exception as e:
         st.text("We are unable to find other company statistics at this time")
     print(e)
 
-#content layout - stock chart image
-# stock_chart_col, spacer = st.columns(2)
-# try:
-#     with stock_chart_col:
-#         company_chart = stock_charts.getCompanyChart(ticker)
-#         st.image(company_chart)
-# except Exception as e:
-#     with stock_chart_col:
-#         st.text("We are unable to find stock charts at this time")
-#     print(e)
