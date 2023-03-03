@@ -45,26 +45,18 @@ spacer1, spacer2, spacer3 = st.columns(3)
 current_price_col, ratio_col, spacer = st.columns(3)
 try:
     google_finance_data = google_finance.get_nasdaq_current_stock_price(ticker)
-    google_finance_prices_dict = {"Price": [google_finance_data["Opening Price"], google_finance_data["Previous Closing Price"]],\
-                                    "Type": ["O", "C"]}
-    google_finance_prices_df = pd.DataFrame(google_finance_prices_dict)
     print(f"Current Price ({google_finance_data['Time of Price'].values[0][:10]})")
     print(google_finance.get_current_ratio(ticker))
-    # percent_change = round(float(google_finance_data["Current Price"].values[0][1:])/round(float(google_finance_data["Previous Closing Price"].values[0][1:])), 2)
     with current_price_col:
-        current_price_col, current_ratio_col = st.columns(2)
-        with current_price_col:
+        current_price_col1, current_ratio_col2 = st.columns(2)
+        with current_price_col1:
             st.text(f"Current Price ({google_finance_data['Time of Price'].values[0][:10]})")
             st.subheader(google_finance_data["Current Price"].values[0])
-            # st.text(percent_change)
-        with ratio_col:
-            st.text(google_finance.get_current_ratio(ticker))
-            # if google_finance_data["Opening Price"].values[0] < google_finance_data["Previous Closing Price"].values[0]:
-            #     price_comparison = f'<p style="font-family:Courier; color:Green; font-size: 12px;">Close: {google_finance_data["Previous Closing Price"].values[0]} &#8593</p>'
-            #     st.markdown(price_comparison, unsafe_allow_html=True)
-            # else:
-            #     price_comparison = f'<p style="font-family:Courier; color:Red; font-size: 12px;">Close: {google_finance_data["Previous Closing Price"].values[0]} &#8595</p>'
-            #     st.markdown(price_comparison, unsafe_allow_html=True)
+        with ratio_col: 
+            ratio_col1, ratio_col2 = st.columns(2)
+            with ratio_col1:
+                st.text("Current Ratio")
+                st.text(google_finance.get_current_ratio(ticker))
 except Exception as e:
     with current_price_col:
         st.text("We are unable to find stock price information at this time")
