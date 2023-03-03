@@ -1,4 +1,3 @@
 sec_cik_mapper
 streamlit
 BeautifulSoup4
-pillow

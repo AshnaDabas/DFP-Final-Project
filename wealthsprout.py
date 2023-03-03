@@ -1,12 +1,10 @@
 import tickerMapper as tm
 import secDataPull as sec
-import pandas as pd
 from ticker_check import ticker_check
 import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
 import streamlit as st
 from PIL import Image
-import matplotlib.pyplot as plt
 
 
 companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
