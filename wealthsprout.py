@@ -5,9 +5,10 @@ import google_finance as google_finance
 import yahooFinanceWebsite as yahoo_finance
 import streamlit as st
 from PIL import Image
+import time
 
 
-companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
+#companies = ["Apple", "Microsoft", "Alphabet", "Amazon", "Tesla", "Meta Platforms", "NVIDIA", "PepsiCo", "Costco Wholesale",  "Broadcom"]
 st.set_page_config(page_title="WealthSprout", page_icon=":seedling:", layout="wide")
 
 #Header Layout
@@ -19,9 +20,20 @@ with header_col:
         st.image(logo)
 
 #Search Bar
-search_col, spacer1, spacer2 = st.columns(3)  
-with search_col:
-    selected_company = st.selectbox("Please select a company you would like to learn more about", companies)
+#search_col, spacer1, spacer2 = st.columns(3)  
+#with search_col:
+#    selected_company = st.selectbox("Please select a company you would like to learn more about", companies)
+
+with st.spinner('Uploading Data...'):
+    companies_df = pd.read_excel('ListOfCompanies.xlsx', sheet_name='Companies')
+    selected_company = st.selectbox('Choose Company', companies_df, help='Select only one company to see financial details.')
+
+    #Search Bar
+    col_0, col_1 = st.columns((1,0.1))  
+    col_0.write('')
+    
+with st.spinner('Company list uploaded!'):
+    time.sleep(1)
 
 #Get Ticker
 try:
