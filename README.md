@@ -9,6 +9,11 @@
 
 <p>3. Download required packages by running the following command </p>
 <code> pip install -r requirements.txt </code>
+<p> or install packages separately using the following commands: </p>
+<p> <code> pip install sec_cik_mapper </code> </p>
+<p> <code> pip install streamlit </code> </p>
+<p> <code> pip install pillow </code> </p>
+<p> <code> pip install BeautifulSoup4</code> </p>
 <br>
 
 <p>4. Run the app by running the following command </p>
