@@ -22,7 +22,6 @@ def getCompanyStatistics(stock_ticker):
     
     # Yahoo Finace Page Link
     url_website = 'https://finance.yahoo.com/quote/{}/key-statistics?p={}'.format(stock_ticker,stock_ticker)
-    #print(url_website)
     
     try:
         # make a http request call to the yahoo finace website 
@@ -31,14 +30,6 @@ def getCompanyStatistics(stock_ticker):
         # load response data to Beautiful Soup
         bs_website = BeautifulSoup(html.read(), "lxml")
         
-        #fname = 'bs_website_company_statistics.txt'
-        #fout = open(fname, 'wt', encoding='utf-8')
-        #fout.write(str(bs_website))
-        #fout.close()
-        #with open(fname, 'r') as f:
-        #    page = f.read()
-        #    f.close()
-
         # Get a list of HTML tables on the web page
         table_list = bs_website.findAll('table')
 
@@ -95,10 +86,8 @@ def getCompanyStatistics(stock_ticker):
         
     except:
         print("Exception: {}".format(sys.exc_info()))
-        #pass
 
-
-
+        
 def getListOfCompanyExecutives(stock_ticker):
     '''
     Function Description:
@@ -115,7 +104,6 @@ def getListOfCompanyExecutives(stock_ticker):
     
     # Yahoo Finace Page Link
     url_website = 'https://finance.yahoo.com/quote/{}/profile?p={}'.format(stock_ticker,stock_ticker)
-    #print(url_website)
     
     try:
         req = Request(url_website, headers={'User-Agent': 'Mozilla/5.0'})
@@ -124,10 +112,6 @@ def getListOfCompanyExecutives(stock_ticker):
     
         bs_website = BeautifulSoup(html.read(), "lxml")
         
-        #fout = open('bs_website_company_profile.txt', 'wt', encoding='utf-8')
-        #fout.write(str(bs_website))
-        #fout.close()
-
         # Get a list of HTML tables on the web page
         table_list = bs_website.findAll('table')
         if len(table_list) == 0: return
@@ -151,7 +135,6 @@ def getListOfCompanyExecutives(stock_ticker):
 
                 if len(spans_name) > 0 and len(spans_title) > 0:
                     exec_list.append([spans_name[0].string,spans_title[0].string])
-                    #print('{}, {}'.format(spans_name[0].string, spans_title[0].string))
         
         # Convert list of lists to a dataframe
         exec_df = pd.DataFrame(exec_list, columns=['Name', 'Title'])
@@ -159,7 +142,6 @@ def getListOfCompanyExecutives(stock_ticker):
         
     except:
         print("Exception: {}".format(sys.exc_info()))
-        #pass
 
 
 # Testing
